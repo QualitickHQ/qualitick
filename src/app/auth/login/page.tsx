@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -11,14 +13,31 @@ import { useRouter } from 'next/navigation'
 import { PiSpinner } from 'react-icons/pi'
 import Link from 'next/link'
 
+// Define validation schemas
+const emailSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  otp: z.string().optional()
+})
+
+const otpSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  otp: z.string().min(1, 'OTP is required')
+})
+
 export default function LoginPage() {
   const [showOTP, setShowOTP] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const form = useForm()
+  const form = useForm({
+    resolver: zodResolver(showOTP ? otpSchema : emailSchema),
+    defaultValues: {
+      email: '',
+      otp: ''
+    }
+  })
   const { toast } = useToast()
   const router = useRouter()
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: z.infer<typeof emailSchema>) => {
     setIsSubmitting(true)
     try {
       if (!showOTP) {
@@ -29,7 +48,7 @@ export default function LoginPage() {
           description: "Please check your email for the OTP.",
         })
       } else {
-        await verifyOTP(data.email, data.otp)
+        await verifyOTP(data.email, data.otp!)
         toast({
           title: "Success",
           description: "You have successfully logged in.",

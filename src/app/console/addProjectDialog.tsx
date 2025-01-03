@@ -1,13 +1,14 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
 import { useProject } from "./ProjectContext"
 import { addProject } from "./actions"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Form, FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form"
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { PiSpinner } from "react-icons/pi"
 
@@ -16,17 +17,27 @@ interface AddProjectDialogProps {
     onClose: () => void;
 }
 
+// Add this schema definition
+const projectSchema = z.object({
+    name: z.string()
+        .min(3, "Project name must be at least 3 characters")
+        .nonempty("Project name is required"),
+})
+
+// Infer the type from the schema
+type ProjectFormValues = z.infer<typeof projectSchema>
+
 export function AddProjectDialog({ isOpen, onClose }: AddProjectDialogProps) {
     const { refreshProjects } = useProject();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const form = useForm({
+    const form = useForm<ProjectFormValues>({
         defaultValues: {
             name: '',
-        }
+        },
+        resolver: zodResolver(projectSchema)
     });
 
-
-    const onSubmit = async (data: { name: string }) => {
+    const onSubmit = async (data: ProjectFormValues) => {
         setIsSubmitting(true);
         try {
             await addProject(data);
@@ -56,8 +67,9 @@ export function AddProjectDialog({ isOpen, onClose }: AddProjectDialogProps) {
                                 <FormItem>
                                     <FormLabel>Project Name</FormLabel>
                                     <FormControl>
-                                        <Input {...field} />
+                                        <Input placeholder="Project Name" {...field} />
                                     </FormControl>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

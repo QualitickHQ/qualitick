@@ -24,12 +24,18 @@ model User {
 }
 
 model Organization {
-  id        String    @id @default(cuid())
-  name      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  members   Member[]
-  projects  Project[]
+  id            String         @id @default(cuid())
+  name          String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  members       Member[]
+  projects      Project[]
+  issues        Issue[]
+  useCases      UseCase[]
+  topics        Topic[]
+  conversations Conversation[]
+  interactions  Interaction[]
+  event         Event[]
 }
 
 model Member {
@@ -43,10 +49,129 @@ model Member {
 }
 
 model Project {
-  id             String       @id @default(cuid())
+  id             String         @id @default(cuid())
   name           String
+  apiKey         String         @unique @default(uuid())
   organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  organization   Organization   @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  conversations  Conversation[]
+  issues         Issue[]
+  useCases       UseCase[]
+  topics         Topic[]
+  interactions   Interaction[]
+  event          Event[]
+}
+
+model Conversation {
+  id             String        @id @default(uuid())
+  identifier     String        @unique
+  projectId      String
+  project        Project       @relation(fields: [projectId], references: [id])
+  organizationId String
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  interactions   Interaction[]
+}
+
+model Event {
+  id             String        @id @default(uuid())
+  name           String
+  projectId      String
+  project        Project       @relation(fields: [projectId], references: [id])
+  organizationId String
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  interactions   Interaction[]
+}
+
+model UseCase {
+  id                  String               @id @default(uuid())
+  name                String
+  description         String
+  projectId           String
+  project             Project              @relation(fields: [projectId], references: [id])
+  organizationId      String
+  organization        Organization         @relation(fields: [organizationId], references: [id])
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  interactionUseCases InteractionUseCase[]
+}
+
+model Issue {
+  id                String             @id @default(uuid())
+  name              String
+  description       String
+  projectId         String
+  project           Project            @relation(fields: [projectId], references: [id])
+  organizationId    String
+  organization      Organization       @relation(fields: [organizationId], references: [id])
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  interactionIssues InteractionIssue[]
+}
+
+model Topic {
+  id                String             @id @default(uuid())
+  name              String
+  description       String
+  projectId         String
+  project           Project            @relation(fields: [projectId], references: [id])
+  organizationId    String
+  organization      Organization       @relation(fields: [organizationId], references: [id])
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  interactionTopics InteractionTopic[]
+}
+
+model Interaction {
+  id                  String               @id @default(uuid())
+  eventId             String
+  event               Event                @relation(fields: [eventId], references: [id])
+  input               String
+  output              String
+  model               String
+  prompt              String
+  urls                Json?                @default("[]")
+  organizationId      String
+  organization        Organization         @relation(fields: [organizationId], references: [id])
+  projectId           String
+  project             Project              @relation(fields: [projectId], references: [id])
+  conversationId      String?
+  conversation        Conversation?        @relation(fields: [conversationId], references: [id])
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  interactionTopics   InteractionTopic[]
+  interactionUseCases InteractionUseCase[]
+  interactionIssues   InteractionIssue[]
+}
+
+model InteractionTopic {
+  interactionId String
+  interaction   Interaction @relation(fields: [interactionId], references: [id])
+  topicId       String
+  topic         Topic       @relation(fields: [topicId], references: [id])
+
+  @@id([interactionId, topicId])
+}
+
+model InteractionUseCase {
+  interactionId String
+  interaction   Interaction @relation(fields: [interactionId], references: [id])
+  useCaseId     String
+  useCase       UseCase     @relation(fields: [useCaseId], references: [id])
+
+  @@id([interactionId, useCaseId])
+}
+
+model InteractionIssue {
+  interactionId String
+  interaction   Interaction @relation(fields: [interactionId], references: [id])
+  issueId       String
+  issue         Issue       @relation(fields: [issueId], references: [id])
+
+  @@id([interactionId, issueId])
 }
