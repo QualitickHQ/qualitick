@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <h1>Qualitick</h1>
+  <p>Open-source analytics platform built specifically for AI applications</p>
+</div>
 
-## Getting Started
+## 👋 Welcome to Qualitick
 
-First, run the development server:
+Qualitick is a powerful analytics platform designed specifically for AI agents and applications. Think of it as PostHog, but tailored for AI-driven products. Our platform helps you understand how users interact with your AI features, track performance, and identify areas for improvement.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 📊 Comprehensive AI Analytics
+- **Daily Email Updates**: Get actionable insights about emerging trends, top use cases, and issues causing churn
+- **Automated Topic Discovery**: AI-powered topic clustering to understand user interactions
+- **Powerful Conversation Search**: Find and analyze specific user interactions and issues
+- **Issue Detection**: Automatically detect user frustration, apologies, and other key indicators
+- **Multi-language Support**: One-click translation to understand global user interactions
+- **Smart Collections**: Organize events for evaluations or team sharing with automatic collection generation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🔒 Privacy First
+- **Advanced PII Protection**: Proprietary PII models with custom semantic redaction rules
+- **Synthetic Data Generation**: Clone user inputs while maintaining privacy
+- **Configurable Data Retention**: Full control over your data storage and handling
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Getting Started
 
-## Learn More
+1. Sign up at [qualitick.ai](https://qualitick.ai)
+2. Get your API key from the dashboard
+3. Install our SDK:
+   ```bash
+   # Using npm
+   npm install qualitick
+   
+   # Using pip
+   pip install qualitick
+   ```
+4. Initialize the SDK in your application
+5. Start tracking your AI interactions!
 
-To learn more about Next.js, take a look at the following resources:
+## 📚 Documentation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Visit our [documentation](https://docs.qualitick.ai) for:
+- Detailed integration guides
+- API reference
+- Best practices
+- Example implementations
+- Privacy controls configuration
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🤝 Contributing
 
-## Deploy on Vercel
+We love contributions! If you'd like to contribute:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📝 License
+
+This project is licensed under the AGPLV3 License - see the [LICENSE](LICENSE) file for details.
+
+## 💬 Community & Support
+
+- [Discord Community](https://discord.gg/qualitick)
+- [GitHub Issues](https://github.com/QualitickHQ/qualitick/issues)
+- [Email Support](mailto:hello@qualitick.ai)
+
+---
+
+<div align="center">
+  <p>Built with ❤️ for the AI community</p>
+</div>
